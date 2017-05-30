@@ -41,9 +41,12 @@ def recv_message_thread(sock):
                     ada=True
                     print "duplikat pesan"
             if ada==False:
-                print "menambahkan ke buffer"
-                buffer.append(msg)
-                sock.sendto(data, ('255.255.255.255',9000))
+                if msg['hop']<msg['max_hop']:
+                    print "menambahkan ke buffer"
+                    buffer.append(msg)
+                    sock.sendto(data, ('255.255.255.255',9000))
+                else:
+                    print "max hope reached"
 
 def createMessage(dst_address,pesan,max_hop,ttl):
     mac=getnode()
